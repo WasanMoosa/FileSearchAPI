@@ -1,28 +1,27 @@
 from fastapi import FastAPI, UploadFile
+from typing import List
 import tempfile
 import os
 from services.File_service import *
 
-
-
 app = FastAPI()
 
-
-
 @app.post("/uploadfile")
-async def create_upload_file(file: UploadFile):
-    # Save uploaded file to temporary file
-    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-        temp_file.write(await file.read())
-        temp_file_path = temp_file.name
+async def create_upload_files(files: List[UploadFile]):
+    for file in files:
+        # Save uploaded file to temporary file
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            temp_file.write(await file.read())
+            temp_file_path = temp_file.name
 
-    # Upload PDF to Firebase object storage, save record in MySQL, and extract sentences from PDF
-    upload_pdf_and_save_record(temp_file_path)
+        # Upload PDF to Firebase object storage, save record in MySQL, and extract sentences from PDF
+        upload_pdf_and_save_record(temp_file_path)
 
-    # Delete temporary file
-    os.remove(temp_file_path)
-
+        # Delete temporary file
+        os.remove(temp_file_path)
+        
     return "done successfully"
+
 
 
 @app.get("/files")
