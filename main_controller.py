@@ -51,10 +51,6 @@ async def get_top_words(id: str):
   
   return top_words(id)
 
-# @app.get('/pdf/page')
-# async def get_pdf_page(id: str, page_num: int):
-
-#  return pdf_image(id, page_num)
 
 @app.delete('/pdf')
 async def delete_pdf(id: str):

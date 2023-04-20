@@ -22,7 +22,7 @@ bucket = storage.bucket()
 db = mysql.connector.connect(
     host="localhost",
     user= "root",
-    password='Wsn93989814',
+    password='***',
     database='filetest'
 )
 cursor = db.cursor()
